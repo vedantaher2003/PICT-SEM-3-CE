@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+
+
+
+class Node
+{
+    public:
+    bool status;
+    Node *prev, *next;
+    Node()
+    {
+        status = false;
+        prev = NULL;
+        next = NULL;
+    }
+};
+class theatre
+{
+    public:
+    Node *head[10];
+    int count = 70;
+    theatre()
+    {
+        for (int i = 0; i < 10; i++)
+            head[i] = NULL;
+    }
+    void create()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                Node *n = new Node();
+                if (head[i] == NULL)
+                {
+                    head[i] = n;
+                    n->prev = n;
+                    n->next = n;
+                }
+                else
+                {
+                    Node *temp = head[i];
+                    while (temp->next != head[i])
+                        temp = temp->next;
+                    n->next = temp->next;
+                    temp->next->prev = n;
+                    temp->next = n;
+                    n->prev = temp;
+                }
+            }
+        }
+    }
+    void display()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            Node *temp = head[i];
+            cout << "R" << i+1 << " ";
+            for (int j = 0; j < 7; j++)
+            {
+                cout << temp->status << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+    void book_seat(int row, int column)
+    {
+        Node *temp = head[row-1];
+        for (int i = 0; i < column-1; i++)
+            temp = temp->next;
+        temp->status = true;
+        count --;
+        cout << endl;
+    }
+    void cancel_seat(int row, int column)
+    {
+        Node *temp = head[row-1];
+        for (int i = 0; i < column-1; i++)
+            temp = temp->next;
+        temp->status = false;
+        count ++;
+        cout << endl;
+    }
+};
+int main()
+{
+    int num, row, column;
+    theatre obj;
+    obj.create();
+    int i=1;
+    while (i!=0)
+    {
+        cout << "1. Available seats\n2. Book seat\n3. Cancel seat\n4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> num;
+        if (num == 1)
+        {
+            cout << "No of seats available are: " << obj.count << endl;
+            obj.display();
+        }
+        else if (num == 2)
+        {
+            cout << "Enter row no and column no: ";
+            cin >> row >> column;
+            obj.book_seat(row,column);
+        }
+        else if (num == 3)
+        {
+            cout << "Enter row no and column no: ";
+            cin >> row >> column;
+            obj.cancel_seat(row,column);
+        }
+        else if(num == 4){
+            i=0;
+            break;
+
+        }
+        else{cout<<"\nWrong choice";}
+        
+    }
+
+    cout<<"Program has ended";
+}

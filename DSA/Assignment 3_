@@ -1,0 +1,122 @@
+################################# CLASS DEFINITION #####################################
+class Matrix:
+    def __init__(self):
+        self.List = []
+
+################################# SET MATRIX VALUES ####################################
+
+    def matset(self):
+        a = int(input("Enter the number rows:"))
+        b = int(input("Enter the number of columns:"))
+        for i in range(a):
+            hor_elem = list(map(int, input().strip().split()))[:b]
+            self.List.append(hor_elem)
+        print(self.List)
+
+################################# ADD TWO MATRICES ######################################
+
+    def __add__(self, M):
+        Finalmat = []
+        Temp = []
+
+        for i in range(len(self.List)):
+            for j in range(len(self.List[i])):
+                Temp.append(self.List[i][j] + M.List[i][j])
+
+            Finalmat.append(Temp)
+            Temp = []
+
+        return Finalmat
+
+################################# SUBSTRACT TWO MATRICES ################################
+
+    def __sub__(self, M):
+        Finalmat = []
+        Temp = []
+        for i in range(len(self.List)):
+            for j in range(len(self.List[i])):
+                Temp.append(self.List[i][j] - M.List[i][j])
+
+            Finalmat.append(Temp)
+            Temp = []
+
+        return Finalmat
+
+################################# MULTIPLY TWO MATRICES #################################
+
+    def __mul__(self, M):
+        Temp = []
+        if len(self.List) == len(self.List[0]):
+            for i in range(len(self.List)):
+                TempA = []
+                for j in range(len(M.List[0])):
+                    num = 0
+                    for k in range(len(M.List)):
+                        num += self.List[i][k] * M.List[k][j]
+                    TempA.append(num)
+                Temp.append(TempA)
+        else:
+            print("Please re-run the code and enter a square matrix")
+        return Temp
+
+################################# TRANPOSE ###############################################
+
+    def trans(self):
+        Temp = []
+        for j in range(len(self.List[0])):
+            Temp.append([])
+            for k in range(len(self.List)):
+                Temp[j].append(0)
+
+        for i in range(len(self.List)):
+            for j in range(len(self.List[i])):
+                Temp[j][i] = self.List[i][j]
+        return Temp
+
+################################# MENU DRIVEN ############################################
+
+    def Menu(self):
+        i = 0
+        while i < 1:
+            print("MENU")
+            print("Press 1 to add the two matrices")
+            print("Press 2 to substract the two matrices")
+            print("Press 3 to multiply the two matrices")
+            print("Press 4 to get the transpose of first matrix")
+            print("Press 5 to get the transpose of second matrix")
+            print("Press 6 to exit")
+            x = int(input("Enter the serial number of the operation you want to perform:"))
+            if x == 1:
+                m3 = m1 + m2
+                print("The addition of the two matrices is:")
+                print(m3)
+            elif x == 2:
+                m4 = m1 - m2
+                print("The substraction of the two matrices is:")
+                print(m4)
+            elif x == 3:
+                m5 = m1 * m2
+                print("The multiplication of the two matrices is:")
+                print(m5)
+            elif x == 4:
+                print("The transpose of the first matrix is:")
+                print(m1.trans())
+            elif x == 5:
+                print("The transpose of the second matrix is:")
+                print(m2.trans())
+            elif x == 6:
+                break
+
+##################################### FUNCTION CALL ####################################
+
+m1 = Matrix()
+m2 = Matrix()
+m1.matset()
+m2.matset()
+m3 = Matrix()
+m4 = Matrix()
+m5 = Matrix()
+
+
+
+m1.Menu()
